@@ -6,13 +6,19 @@ $username = 'root';
 $password = ''; 
 
 try {/*  Fonction qui tente de ce connecter */
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password); /* Crée une connexion avec les variables au dessus */
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password); /* Si quelque chose ne va pas, arrête tout et envoie une erreur dans le catch */
     
-    /* Mode erreur (important) */
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    /* Mode erreur */
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); /*Comment PDO doit réagir dans certaines situations*/
+    /*PDO::ATTR_ERRMODE
+Le mode pour reporter les erreurs de PDO. Peut prendre une des valeurs suivantes :    
+    PDO::ERRMODE_EXCEPTION
+Lance des PDOExceptions.*/
 
     echo "Connexion réussie !";
     
 } catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage();
+    echo "Erreur : " . $e->getMessage(); 
 }
+
+/*remplacé le message d'erreur par die("Une erreur est survenue"); permet d'empécher l'uttilisateur de savoir où est le problème et limiter des scams potentiels*/
