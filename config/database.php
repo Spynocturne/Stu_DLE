@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost'; /* crée une variable host qui contient le texte localhost */
-$dbname = 'student_dle'; 
+$dbname = 'studle'; 
 $username = 'root'; 
 $password = ''; 
 
@@ -18,7 +18,7 @@ Lance des PDOExceptions.*/
     echo "Connexion réussie !";
     
 } catch (PDOException $e) {
-    echo "Erreur : " . $e->getMessage(); 
+    echo "Erreur : " . $e->getMessage(); /* permet de recup le message */
 }
 
 /*remplacé le message d'erreur par die("Une erreur est survenue"); permet d'empécher l'uttilisateur de savoir où est le problème et limiter des scams potentiels*/
