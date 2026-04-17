@@ -11,7 +11,18 @@
 
          <header>
              <h1>Studle</h1>
-             <nav><!-- Fait comprendre au programme que cette section permet de voyager entre les pages -->
-                 <a href="index.php">Accueil</a> <!-- Lien Hypertexte vers index.php -->
+             <nav>                                      <!-- Fait comprendre au programme que cette section permet de voyager entre les pages -->
+                 <a href="index.php">Accueil</a>        <!-- Lien Hypertexte vers index.php -->
+
+             <?php if (isset($_SESSION['user'])): ?>    <!-- Si connecter -->
+                <p>Bienvenue <?= $_SESSION['user'] ?></p>
+                <a href="?logout=1">Déconnexion</a>
+            
+             <?php else: ?>                            <!--Si pas connecter-->
+                <p>Non connecté</p>
+                
+             <?php endif; ?>
+            
+
              </nav>
          </header>
