@@ -7,4 +7,19 @@
         <input type="email" name="email" placeholder="Email" required>
         <button type="submit">Envoyer</button>
     </form>
+
+    <h2>Liste des utilisateurs</h2>
+
+<?php
+$sql = "SELECT * FROM users";
+$result = $pdo->query($sql); /*query execute une requete SQL sur la base de donné*/
+
+foreach ($result as $row) {
+    echo $row['pseudo'] . " - " . $row['email'];
+    echo " <a href='?delete=" . $row['id'] . "'>Supprimer</a>";
+    echo " <a href='?edit=" . $row['id'] . "'>Modifier</a>";
+    echo "<br>";
+}
+?>
+
 </main>
