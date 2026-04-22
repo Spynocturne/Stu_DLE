@@ -4,6 +4,11 @@ require __DIR__ . '/config/database.php';
 
 session_start();
 
+/* CREATION du token CSRF*/
+if (!isset($_SESSION['token'])) { /*si pas de token*/
+    $_SESSION['token'] = bin2hex(random_bytes(32)); /*bin2hex — Convertit des données binaires en représentation hexadécimale */
+}
+
 /*VERIFIER la connexion*/
 if (isset($_POST['login'])) { /*si login pressé */
 
@@ -68,8 +73,29 @@ if (isset($_GET['delete'])) {
         die("Accès refusé");
     }
 
-    $id = $_GET['delete'];
+    /* Vérification bon token*/
+    if (!isset($_GET['token']) || $_GET['token'] !== $_SESSION['token']) {
+    die("Token invalide");
+    }
 
+    /*Recup l'uttilisateur*/
+    $id = (int) $_GET['delete']; /*Force un int donc un id */
+
+    /*Vécifier que l'utilisateur existe */
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$id]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        die("Utilisateur introuvable");
+    }
+
+    /*Empécher l'auto supression */
+    if ($user['pseudo'] === $_SESSION['user']) {
+        die("Vous ne pouvez pas vous supprimer vous-même");
+    }
+
+    /*suppression*/
     try {
         $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
         $stmt->execute([$id]);
@@ -115,6 +141,18 @@ if (isset($_POST['update'])) {
 /* Partie affichage */
 
 include __DIR__ . '/includes/header.php'; /*__DIR__  permet de donner le chemin absolue */
-include __DIR__ . '/pages/accueil.php'; 
+
+$allowedPages = ['accueil', 'admin', 'jeu']; /*Whiteliste de mon projet */
+
+/*permet de crée un chemin accessible uniquement pour les admin*/
+$page = $_GET['page'] ?? 'accueil'; 
+
+if (in_array($page, $allowedPages)) { /*in_array — Indique si une valeur appartient à un tableau (si la page est dans la liste)*/
+    include __DIR__ . '/pages/' . $page . '.php';
+} else {
+    echo "Page introuvable";
+}
+
+
 include __DIR__ . '/includes/footer.php';
 /* require possible à la place de include */
