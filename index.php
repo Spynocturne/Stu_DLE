@@ -4,6 +4,8 @@ require __DIR__ . '/config/database.php';
 
 session_start();
 
+
+
 /* CREATION du token CSRF*/
 if (!isset($_SESSION['token'])) { /*si pas de token*/
     $_SESSION['token'] = bin2hex(random_bytes(32)); /*bin2hex — Convertit des données binaires en représentation hexadécimale */
@@ -25,6 +27,8 @@ if (isset($_POST['login'])) { /*si login pressé */
         $_SESSION['user'] = $user['pseudo'];
         $_SESSION['role'] = $user['role'];
 
+        $_SESSION['success'] = "Connexion réussie !"; 
+
         header("Location: index.php");
         exit;
 
@@ -39,6 +43,8 @@ if (isset($_GET['logout'])) {
     header("Location: index.php");
     exit;
 }
+
+
 
 
 /*ENREGISTRER un mdp*/
@@ -135,6 +141,76 @@ if (isset($_POST['update'])) {
     } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
     }
+}
+
+/*PARTIE jeu*/
+/*recup aléatoire*/
+if (!isset($_SESSION['target'])) {
+    $stmt = $pdo->query("SELECT * FROM eleves ORDER BY RAND() LIMIT 1");/*query execute la requete sql pour avoir un eleve random*/
+    $_SESSION['target'] = $stmt->fetch();                               /*fetch() recup la valeur et la garde même si CTRL + R */
+}
+/*recup le nom tester*/
+if (isset($_POST['guess'])) {
+
+    $prenom = $_POST['prenom']; /*variable $prenom = prenom donné */
+
+    $stmt = $pdo->prepare("SELECT * FROM eleves WHERE prenom = ?");/*prepare() = Prépare une requête à l'exécution et retourne un objet*/
+    $stmt->execute([$prenom]);
+
+    $guess = $stmt->fetch();
+
+    if (!$guess) {
+        echo "Élève introuvable";
+    }
+}
+
+/*Teste les resultats*/
+if (isset($guess) && $guess) {
+
+    $target = $_SESSION['target'];
+
+    $resultat = "";
+
+    $resultat.= "<h3>Résultat :</h3>";
+
+    /* Sexe */
+    $resultat.= "Sexe : " .     ($guess['sexe'] ===     $target['sexe'] ?      "✅" : "❌") . "<br>";
+
+    /* Parcours*/
+    $resultat.= "Parcours : " . ($guess['parcours'] === $target['parcours'] ?  "✅" : "❌") . "<br>";
+
+    /* Lunettes */
+    $resultat.= "Lunettes : " . ($guess['lunettes'] ==  $target['lunettes'] ?  "✅" : "❌") . "<br>";
+
+    /* Cheveux */
+    $resultat.=  "Cheveux : " .  ($guess['cheveux'] ===  $target['cheveux'] ?   "✅" : "❌") . "<br>";
+
+    /* Naissance */
+    if ($guess['naissance'] == $target['naissance']) {
+            $resultat.= "Naissance : ✅<br>";
+    } elseif ($guess['naissance'] < $target['naissance']) {
+            $resultat.= "Naissance : ⬆️<br>";
+    } else {
+            $resultat.="Naissance : ⬇️<br>";
+    }
+
+    /* Taille */
+    if ($guess['taille'] == $target['taille']) {
+        $resultat.= "Taille : ✅<br>";
+    }elseif ($guess['taille'] < $target['taille']) {
+        $resultat.= "Taille : ⬆️<br>";
+    } else {
+        $resultat.= "Taille : ⬇️<br>";
+    }
+
+    /* Test victoire*/
+    if ($guess['prenom'] === $target['prenom']) {
+        $resultat.= "<h2>🎉 Gagné !</h2>";
+        unset($_SESSION['target']); /* relance une nouvelle partie*/
+    }
+
+    $_SESSION['resultat'] = $resultat;
+    $_SESSION['essais'][] = $resultat; /* Permet de gerer les essaies */
 }
 
 

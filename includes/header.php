@@ -17,7 +17,7 @@
     
         <nav>                                                  <!-- Fait comprendre au programme que cette section permet de voyager entre les pages -->
             <a href="index.php">Accueil</a>                    <!-- Lien Hypertexte vers index.php -->
-            <a href="index.php?page=jeu">Jeu</a>
+            
 
              <!--Lien vers le pannel admin-->
              <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
@@ -34,8 +34,17 @@
              <p>Non connecté</p>
             
              <?php endif; ?>
-        
+
+            <a href="index.php?page=jeu">Jeu</a>
          </nav>
      </header>
+
+     <!--Verification de la connexion avec PHP-->
+     <?php if (isset($_SESSION['success'])): ?>
+         <div id="success-message">
+             <?= $_SESSION['success']; ?>
+         </div>
+         <?php unset($_SESSION['success']); ?> <!--S'affiche une fois même si on refresh la page-->
+    <?php endif; ?>
 
      <main>

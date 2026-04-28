@@ -13,7 +13,6 @@ try {/*  Fonction qui tente de ce connecter */
     /*PDO::ATTR_ERRMODE Le mode pour reporter les erreurs de PDO. Peut prendre pour valeur :    
     PDO::ERRMODE_EXCEPTION Lance des PDOExceptions.*/
 
-    echo "Connexion réussie !";
     
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage(); /* permet de recup le message */
