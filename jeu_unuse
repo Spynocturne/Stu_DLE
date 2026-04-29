@@ -1,0 +1,8 @@
+résultat sous forme de texte
+
+<?php if (isset($_SESSION['resultat'])): ?>
+    <div class="result">
+        <?= $_SESSION['resultat']; ?>
+    </div>
+    <?php unset($_SESSION['resultat']); ?>
+<?php endif; ?>
