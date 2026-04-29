@@ -121,6 +121,41 @@ a:hover {
     margin-bottom: 10px;
     border-radius: 8px;
 }
+/* JEU */
+.game-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.game-table th {
+    background-color: #222;
+    color: white;
+    padding: 10px;
+}
+
+.game-table td {
+    height: 50px;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* COULEURS */
+.ok {
+    background-color: #4CAF50; /* vert */
+}
+
+.no {
+    background-color: #e74c3c; /* rouge */
+}
+
+.up {
+    background-color: orange;
+}
+
+.down {
+    background-color: orange;
+}
 
 /*resultat du DLE*/
 .result {

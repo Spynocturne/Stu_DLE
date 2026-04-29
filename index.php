@@ -11,6 +11,7 @@ if (!isset($_SESSION['token'])) { /*si pas de token*/
     $_SESSION['token'] = bin2hex(random_bytes(32)); /*bin2hex — Convertit des données binaires en représentation hexadécimale */
 }
 
+
 /*VERIFIER la connexion*/
 if (isset($_POST['login'])) { /*si login pressé */
 
@@ -43,8 +44,6 @@ if (isset($_GET['logout'])) {
     header("Location: index.php");
     exit;
 }
-
-
 
 
 /*ENREGISTRER un mdp*/
@@ -144,6 +143,10 @@ if (isset($_POST['update'])) {
 }
 
 /*PARTIE jeu*/
+/*initialise le tableau des essaie*/
+if (!isset($_SESSION['essais'])) {
+    $_SESSION['essais'] = [];
+}
 /*recup aléatoire*/
 if (!isset($_SESSION['target'])) {
     $stmt = $pdo->query("SELECT * FROM eleves ORDER BY RAND() LIMIT 1");/*query execute la requete sql pour avoir un eleve random*/
@@ -164,6 +167,7 @@ if (isset($_POST['guess'])) {
     }
 }
 
+
 /*Teste les resultats*/
 if (isset($guess) && $guess) {
 
@@ -173,17 +177,20 @@ if (isset($guess) && $guess) {
 
     $resultat.= "<h3>Résultat :</h3>";
 
+    /*Prenom*/
+    $resultat .= "<strong>"   . $guess['prenom'] . "</strong><br>";
+
     /* Sexe */
-    $resultat.= "Sexe : " .     ($guess['sexe'] ===     $target['sexe'] ?      "✅" : "❌") . "<br>";
+    $resultat.= "Sexe : "     .  ($guess['sexe']     === $target['sexe'] ?      "✅" : "❌") . "<br>";
 
     /* Parcours*/
-    $resultat.= "Parcours : " . ($guess['parcours'] === $target['parcours'] ?  "✅" : "❌") . "<br>";
+    $resultat.= "Parcours : " .  ($guess['parcours'] === $target['parcours'] ?  "✅" : "❌") . "<br>";
 
     /* Lunettes */
-    $resultat.= "Lunettes : " . ($guess['lunettes'] ==  $target['lunettes'] ?  "✅" : "❌") . "<br>";
+    $resultat.= "Lunettes : " .  ($guess['lunettes'] ===  $target['lunettes'] ?  "✅" : "❌") . "<br>";
 
     /* Cheveux */
-    $resultat.=  "Cheveux : " .  ($guess['cheveux'] ===  $target['cheveux'] ?   "✅" : "❌") . "<br>";
+    $resultat.=  "Cheveux : " .  ($guess['cheveux']  ===  $target['cheveux'] ?   "✅" : "❌") . "<br>";
 
     /* Naissance */
     if ($guess['naissance'] == $target['naissance']) {
@@ -207,10 +214,25 @@ if (isset($guess) && $guess) {
     if ($guess['prenom'] === $target['prenom']) {
         $resultat.= "<h2>🎉 Gagné !</h2>";
         unset($_SESSION['target']); /* relance une nouvelle partie*/
+        unset($_SESSION['essais']); /*reset l'historique */
     }
 
     $_SESSION['resultat'] = $resultat;
-    $_SESSION['essais'][] = $resultat; /* Permet de gerer les essaies */
+
+    /* Permet de gerer les essaies */
+    $_SESSION['essais'][] = [
+        'prenom'   => $guess['prenom'],
+        'sexe'     => ($guess['sexe']     === $target['sexe']),
+        'parcours' => ($guess['parcours'] === $target['parcours']),
+        'lunettes' => ($guess['lunettes'] == $target['lunettes']),
+        'cheveux'  => ($guess['cheveux']  === $target['cheveux']),
+        
+        'naissance' => ($guess['naissance'] == $target['naissance']) ? "ok"
+            : ($guess['naissance'] < $target['naissance'] ? "up" : "down"),
+
+        'taille' => ($guess['taille'] == $target['taille']) ? "ok"
+            : ($guess['taille'] < $target['taille'] ? "up" : "down"),
+    ]; 
 }
 
 
