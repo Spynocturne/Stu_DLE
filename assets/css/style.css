@@ -128,6 +128,12 @@ a:hover {
     margin-top: 20px;
 }
 
+/*taille image*/
+.game-table img {
+    width: 24px;
+    height: 24px;
+}
+
 .game-table th {
     background-color: #222;
     color: white;

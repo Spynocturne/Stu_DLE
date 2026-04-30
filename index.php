@@ -189,8 +189,8 @@ if (isset($guess) && $guess) {
     /* Lunettes */
     $resultat.= "Lunettes : " .  ($guess['lunettes'] ===  $target['lunettes'] ?  "✅" : "❌") . "<br>";
 
-    /* Cheveux */
-    $resultat.=  "Cheveux : " .  ($guess['cheveux']  ===  $target['cheveux'] ?   "✅" : "❌") . "<br>";
+    /* Cheuveux */
+    $resultat.=  "Cheuveux : " .  ($guess['cheuveux']  ===  $target['cheuveux'] ?   "✅" : "❌") . "<br>";
 
     /* Naissance */
     if ($guess['naissance'] == $target['naissance']) {
@@ -225,7 +225,7 @@ if (isset($guess) && $guess) {
         'sexe'     => ($guess['sexe']     === $target['sexe']),
         'parcours' => ($guess['parcours'] === $target['parcours']),
         'lunettes' => ($guess['lunettes'] == $target['lunettes']),
-        'cheveux'  => ($guess['cheveux']  === $target['cheveux']),
+        'cheuveux'  => ($guess['cheuveux']  === $target['cheuveux']),
         
         'naissance' => ($guess['naissance'] == $target['naissance']) ? "ok"
             : ($guess['naissance'] < $target['naissance'] ? "up" : "down"),
