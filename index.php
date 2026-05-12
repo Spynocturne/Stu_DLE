@@ -80,7 +80,7 @@ if (isset($_GET['delete'])) {
 
     /* Vérification bon token*/
     if (!isset($_GET['token']) || $_GET['token'] !== $_SESSION['token']) {
-    die("Token invalide");
+        die("Token invalide");
     }
 
     /*Recup l'uttilisateur*/
@@ -143,17 +143,37 @@ if (isset($_POST['update'])) {
 }
 
 /*PARTIE jeu*/
+$maxEssais = 4;
+
 /*initialise le tableau des essaie*/
 if (!isset($_SESSION['essais'])) {
     $_SESSION['essais'] = [];
 }
-/*recup aléatoire*/
+
+/*Reset de partie*/
+if (isset($_POST['reset'])) {
+    unset($_SESSION['target']);
+    unset($_SESSION['essais']);
+    unset($_SESSION['resultat']);
+
+    header("Location: index.php?page=jeu");
+    exit;
+}
+
+/*recup éléve aléatoire*/
 if (!isset($_SESSION['target'])) {
     $stmt = $pdo->query("SELECT * FROM eleves ORDER BY RAND() LIMIT 1");/*query execute la requete sql pour avoir un eleve random*/
     $_SESSION['target'] = $stmt->fetch();                               /*fetch() recup la valeur et la garde même si CTRL + R */
 }
 /*recup le nom tester*/
 if (isset($_POST['guess'])) {
+
+/*nb test max*/
+    if (count($_SESSION['essais']) >= $maxEssais) {
+        $_SESSION['error'] = "❌ Tu as atteint la limite de $maxEssais essais !";
+        header("Location: index.php?page=jeu");
+        exit;
+    }
 
     $prenom = $_POST['prenom']; /*variable $prenom = prenom donné */
 
@@ -162,15 +182,21 @@ if (isset($_POST['guess'])) {
 
     $guess = $stmt->fetch();
 
+    /*Si élève pas dans la liste*/
     if (!$guess) {
-        echo "Élève introuvable";
+        $_SESSION['error'] = "Élève introuvable";
+        header("Location: index.php?page=jeu");
+        exit;
     }
 }
 
 
 /*Teste les resultats*/
 if (isset($guess) && $guess) {
-
+    
+    if (!isset($_SESSION['resultat'])) {
+        $_SESSION['resultat'] = $resultat;
+    }
     $target = $_SESSION['target'];
 
     $resultat = "";
@@ -212,13 +238,21 @@ if (isset($guess) && $guess) {
 
     /* Test victoire*/
     if ($guess['prenom'] === $target['prenom']) {
-        $resultat.= "<h2>🎉 Gagné !</h2>";
-        unset($_SESSION['target']); /* relance une nouvelle partie*/
-        unset($_SESSION['essais']); /*reset l'historique */
+
+        $_SESSION['resultat'] = "
+        <div class='victory'>
+            <img src='assets/images/Trophee.png' width='50'>
+            <h2>🎉 Bravo !</h2>
+            <p>Tu as trouvé : <strong>" . $target['prenom'] . "</strong></p>
+        </div>
+        ";
+
+        unset($_SESSION['target']);
+        unset($_SESSION['essais']);
+
+        header("Location: index.php?page=jeu"); //  IMPORTANT
+        exit;
     }
-
-    $_SESSION['resultat'] = $resultat;
-
     /* Permet de gerer les essaies */
     $_SESSION['essais'][] = [
         'prenom'   => $guess['prenom'],
@@ -233,6 +267,23 @@ if (isset($guess) && $guess) {
         'taille' => ($guess['taille'] == $target['taille']) ? "ok"
             : ($guess['taille'] < $target['taille'] ? "up" : "down"),
     ]; 
+
+    /*si trop d'essaie*/
+    if (count($_SESSION['essais']) >= $maxEssais && $guess['prenom'] !== $target['prenom']) {
+
+    $_SESSION['error'] = "
+    <div class='game-over'>
+        <img src='assets/images/Trophee_Brise.png' width='40'>
+        <p>Perdu ! L'élève était : <strong>" . $target['prenom'] . "</strong></p>
+    </div>
+";
+
+    unset($_SESSION['target']);
+    unset($_SESSION['essais']);
+
+    header("Location: index.php?page=jeu");
+    exit;
+}
 }
 
 

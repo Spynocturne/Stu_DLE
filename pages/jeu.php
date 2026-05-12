@@ -5,8 +5,15 @@
     <button type="submit" name="guess">Tester</button>
 </form>
 
+<!--Test si trop d'erreur (nb gerer dans index)-->
+<?php if (isset($_SESSION['error'])): ?>
+    <div class="error">
+        <?= $_SESSION['error']; ?>
+    </div>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
 
-<h2> Essais</h2>
+<h2><img src="assets/images/Inscription.png" > Essais</h2>
 
 <table class="game-table">
     <tr>
@@ -18,6 +25,7 @@
         <th>Lunettes</th>
         <th>Cheuveux</th>
     </tr>
+    <tr class="ligne-essai">
 
 <!-- Pour chaque essaie faire les tests-->
 <?php foreach ($_SESSION['essais'] as $essai): ?>
@@ -70,15 +78,9 @@
 
 </table>
 
+</br>
 
-<h2>📜 Historique des essais</h2>
-
-<?php if (!empty($_SESSION['essais'])): ?>
-
-    <?php foreach ($_SESSION['essais'] as $essai): ?>
-        <div class="result">
-            <td><?= $essai['prenom'] ?></td> <!-- Affiche tableau-->
-        </div>
-    <?php endforeach; ?>
-
-<?php endif; ?>
+    <!--Relancer une nouvelle partie-->
+<form method="POST">
+    <button type="submit" name="reset">Nouvelle partie</button>
+</form>

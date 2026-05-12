@@ -13,7 +13,7 @@
      
      <header>
          <img src="/STU_DLE/assets/images/Logo.png" width="160" height="95" alt="Studle">
-         <h1>Studle</h1>
+         <!--<h1>Studle</h1>-->
     
         <nav>                                                  <!-- Fait comprendre au programme que cette section permet de voyager entre les pages -->
             <a href="index.php">Accueil</a>                    <!-- Lien Hypertexte vers index.php -->
@@ -26,7 +26,7 @@
 
              <!-- Si connecter -->
              <?php if (isset($_SESSION['user'])): ?>        
-                <p>Bienvenue <?= $_SESSION['user'] ?></p>
+                <p class = "Bienvenue"><strong>Bienvenue <?= $_SESSION['user'] ?> </strong></p>
              <a href="?logout=1">Déconnexion</a>
         
              <!--Si pas connecter-->

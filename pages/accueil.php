@@ -10,7 +10,7 @@
         <button type="submit"  name="register">S'inscrire</button>
     </form>
 
-    <h2>Liste des utilisateurs</h2>
+    <h2><img src="assets/images/Livre.png" >Liste des utilisateurs</h2>
 
 
     <!-- LISTER les utilisateur -->
@@ -24,7 +24,7 @@ echo "<strong>" . $row['pseudo'] . "</strong><br>";
 echo $row['email'];
 
 if (!empty($_SESSION['user']) && $_SESSION['role'] === 'admin') {
-    echo "<br><a href='?delete=" . $row['id'] . "'>Supprimé : ❌</a>";
+    echo "<br><a href='?delete=" . $row['id'] . "&token=" . $_SESSION['token'] . "'>Supprimer ❌</a>"; /*suppression avec token*/
     echo " <a href='?edit=" . $row['id'] . "'>Modifié : ✏️</a>";
 }
 
@@ -41,18 +41,31 @@ echo "</div>";
     <button type="submit"   name="login">Se connecter</button>
 </form>
 
-
 <!--MODIFICATION de compte-->
 <?php
 if (isset($_GET['edit'])) { /*si le edit present dans Modifier est vrai/appuyer */
+   
     $id = $_GET['edit'];
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$id]);
     $user = $stmt->fetch();
-?>
 
+?>
+<!-- Partie qui s'affiche quand on appuie sur modifié-->
+<h2>Modifier utilisateur</h2>
+
+<form method="POST">
+    <input type="hidden" name="id" value="<?= $user['id'] ?>">
+
+    <input type="text" name="pseudo" value="<?= htmlspecialchars($user['pseudo']) ?>" required>
+    <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+
+    <button type="submit" name="update">Modifier</button>
+</form>
 
 <?php } ?>
+
+
 
 </div>

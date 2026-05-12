@@ -5,7 +5,7 @@ body {
     background-color: rgb(180, 175, 175);
 }
 
-/* Header*/
+/* Header (la banniére au dessus)*/
 header {
     background-color: #a5e7a5;
     color: white;
@@ -20,6 +20,11 @@ header {
     text-align: center;
 }
 
+/* Message de Bienvenue*/
+.Bienvenue{
+    color: rgb(15, 95, 130);
+    padding: 20px;
+}
 /*titre principale*/
 header h1 {
     margin: 0;
@@ -65,7 +70,7 @@ input {
 
 /* BOUTONS */
 button {
-    background-color: #007bff;
+    background-color: #26bed6;
     color: white;
     border: none;
     padding: 10px;
@@ -121,7 +126,21 @@ a:hover {
     margin-bottom: 10px;
     border-radius: 8px;
 }
+
+
 /* JEU */
+
+/*Quand perdue*/
+.error {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+/*style tableau de jeu*/
 .game-table {
     width: 100%;
     border-collapse: collapse;
@@ -134,41 +153,69 @@ a:hover {
     height: 24px;
 }
 
+/*Le haut du tableau*/
 .game-table th {
-    background-color: #222;
+    background-color: #282626;
     color: white;
     padding: 10px;
 }
 
+/*style tableau de jeu */
 .game-table td {
     height: 50px;
     text-align: center;
+    border-style: ridge;
     font-size: 20px;
 }
 
-/* COULEURS */
+/* Couleur Jeu */
+/*Reuissite*/
 .ok {
     background-color: #4CAF50; /* vert */
 }
 
+/*Echec*/
 .no {
     background-color: #e74c3c; /* rouge */
 }
 
+/*Plus grand*/
 .up {
     background-color: orange;
 }
 
+/*Plus petit*/
 .down {
-    background-color: orange;
+    background-color: rgb(48, 223, 226);
 }
 
-/*resultat du DLE*/
+/*resultat du DLE/historique test */
 .result {
     background: white;
     padding: 15px;
     margin-top: 20px;
     border-radius: 10px;
+}
+
+/*ligne d'essaie*/
+.ligne-essai {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: apparition 0.5s ease forwards;
+}
+
+/*Partie JS*/ /* Internet */
+@keyframes apparition {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*Effet quand on survole les cases*/
+.game-table td:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
 }
 
 /* FOOTER */
