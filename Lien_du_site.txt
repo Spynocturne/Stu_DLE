@@ -1,0 +1,6 @@
+http://localhost:8080/phpmyadmin/index.php?route=/sql&pos=0&db=studle&table=users
+http://localhost:8080/STU_DLE/
+
+https://developer.mozilla.org/fr/ Je vous aimes 
+https://www.php.net/ Mes 2nd roi
+https://php-astux.info/script-formulaire-contact.php

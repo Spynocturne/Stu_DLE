@@ -3,7 +3,8 @@
 
 <footer>
     <p>© 2026 Studle</p>
-    <a href="index.php?page=contact">Contact</a> <!--Page contact-->
+    <a href="index.php?page=contact">Contact</a>        <!--Page contact-->
+    <a href="index.php?page=conditions">Conditions</a>  <!--Page conditions-->
 </footer>
 
 <script src="assets/js/script.js"></script>

@@ -26,7 +26,7 @@
 
              <!-- Si connecter -->
              <?php if (isset($_SESSION['user'])): ?>        
-                <p class = "Bienvenue"><strong>Bienvenue <?= $_SESSION['user'] ?> </strong></p>
+                <p class = "Bienvenue">Bienvenue <strong><?= $_SESSION['user'] ?> </strong></p>
              <a href="?logout=1">Déconnexion</a>
         
              <!--Si pas connecter-->

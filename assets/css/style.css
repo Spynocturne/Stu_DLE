@@ -5,10 +5,32 @@ body {
     background-color: rgb(180, 175, 175);
 }
 
-/* Header (la banniére au dessus)*/
+/* HEADER (la banniére au dessus)*/
 header {
-    background-color: #a5e7a5;
+    background: linear-gradient(#a5e7a5,80%, rgb(180, 175, 175)), url("Logo.png");
     color: white;
+    padding: 15px;
+    font-size: 1.2rem;
+}
+
+/*Lien dans Header*/
+header a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+
+    transition: 0.3s; /*transitiontionne avec le hover en dessous*/
+}
+
+/* Effet quand on survole*/
+header a:hover {
+    color: rgb(12, 46, 75);
+    letter-spacing: 1px;
+}
+
+/* Message de Bienvenue*/
+.Bienvenue{
+    color: rgb(15, 95, 130);
     padding: 15px;
 }
 
@@ -20,11 +42,6 @@ header {
     text-align: center;
 }
 
-/* Message de Bienvenue*/
-.Bienvenue{
-    color: rgb(15, 95, 130);
-    padding: 20px;
-}
 /*titre principale*/
 header h1 {
     margin: 0;
@@ -79,7 +96,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #193a45;
 }
 
 /* TABLEAU */
@@ -129,6 +146,48 @@ a:hover {
 
 
 /* JEU */
+/*Quand Gagné*/
+.victory {
+    background: #1f3c2e;
+    border: 2px solid #4bb54f;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 60%;
+    text-align: center;
+    color: white;
+
+    animation: pop 0.4s ease;
+}
+/*image victoire*/
+.victory img {
+    width: 70px;
+    margin-bottom: 10px;
+}
+/*Titre victoire*/
+.victory h2 {
+    color: #70f970;
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+/*Texte victoire*/
+.victory p {
+    font-size: 20px;
+}
+
+/*effet d'apparition de victoire*/
+@keyframes pop {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 
 /*Quand perdue*/
 .error {
@@ -138,6 +197,16 @@ a:hover {
     margin-top: 10px;
     text-align: center;
     border-radius: 8px;
+}
+
+/*style de selection de personne*/
+select {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #333;
+    background: #222;
+    color: white;
+    font-size: 16px;
 }
 
 /*style tableau de jeu*/
@@ -222,7 +291,22 @@ a:hover {
 footer {
     text-align: center;
     padding: 15px;
-    background-color: #771d1d;
-    color: rgba(23, 135, 15, 0.46);
+    background:linear-gradient( rgb(180, 175, 175), 30% ,#771d1d);
+    color: rgba(43, 255, 28, 0.46);
     margin-top: 20px;
+}
+
+/*Lien dans Footer*/
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+
+    transition: 2s;
+}
+
+/* Effet quand on survole*/
+footer a:hover {
+    color: rgb(15, 126, 223);
+    letter-spacing: 1px;
 }

@@ -1,9 +1,37 @@
 <h2> Trouve l'élève</h2>
 
+<?php if (empty($_SESSION['game_over'])): ?>
+
 <form method="POST">
-    <input type="text" name="prenom" placeholder="Entrez un prénom" required>
+
+    <input 
+        type="text"
+        name="prenom"
+        placeholder="Entrez un prénom"
+        list="liste-eleves"
+        autocomplete="off"
+        required
+    >
+
+    <datalist id="liste-eleves">
+
+        <?php
+        $stmt = $pdo->query("SELECT prenom FROM eleves ORDER BY prenom ASC");
+
+        foreach ($stmt as $eleve):
+        ?>
+
+            <option value="<?= $eleve['prenom'] ?>">
+
+        <?php endforeach; ?>
+
+    </datalist>
+
     <button type="submit" name="guess">Tester</button>
+
 </form>
+
+<?php endif; ?>
 
 <!--Test si trop d'erreur (nb gerer dans index)-->
 <?php if (isset($_SESSION['error'])): ?>
@@ -13,6 +41,12 @@
     <?php unset($_SESSION['error']); ?>
 <?php endif; ?>
 
+<!--Message de Victoire-->
+<?php if (isset($_SESSION['resultat'])): ?>
+    <div class="victory-message">
+        <?= $_SESSION['resultat']; ?> <!--Ne pas faire :unset($_SESSION['resultat']); sinon le message disparai instantanément-->
+    </div>
+<?php endif; ?>
 <h2><img src="assets/images/Inscription.png" > Essais</h2>
 
 <table class="game-table">
@@ -23,7 +57,7 @@
         <th>Naissance</th>
         <th>Taille</th>
         <th>Lunettes</th>
-        <th>Cheuveux</th>
+        <th>Cheveux</th>
     </tr>
     <tr class="ligne-essai">
 
@@ -68,9 +102,9 @@
         <img src="assets/images/<?= $essai['lunettes'] ? 'Reussite.png' : 'Erreur.png' ?>" >
     </td>
 
-    <!-- Test Cheuveux -->
-    <td class="<?= $essai['cheuveux'] ? 'ok' : 'no' ?>">
-        <img src="assets/images/<?= $essai['cheuveux'] ? 'Reussite.png' : 'Erreur.png' ?>">
+    <!-- Test Cheveux -->
+    <td class="<?= $essai['cheveux'] ? 'ok' : 'no' ?>">
+        <img src="assets/images/<?= $essai['cheveux'] ? 'Reussite.png' : 'Erreur.png' ?>">
     </td>
 
 </tr>

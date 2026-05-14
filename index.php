@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);         /*“Affiche TOUTES les erreurs possibles”*/
+ini_set('display_errors', 1);   /*Active l’affichage des erreurs directement sur la page web.*/
+
 require __DIR__ . '/config/database.php';
 
 session_start();
@@ -152,9 +155,10 @@ if (!isset($_SESSION['essais'])) {
 
 /*Reset de partie*/
 if (isset($_POST['reset'])) {
-    unset($_SESSION['target']);
-    unset($_SESSION['essais']);
+    unset($_SESSION['target']); /*SUPPR*/
+    unset($_SESSION['essais']);  /*SUPPR*/
     unset($_SESSION['resultat']);
+    unset($_SESSION['game_over']);
 
     header("Location: index.php?page=jeu");
     exit;
@@ -193,10 +197,7 @@ if (isset($_POST['guess'])) {
 
 /*Teste les resultats*/
 if (isset($guess) && $guess) {
-    
-    if (!isset($_SESSION['resultat'])) {
-        $_SESSION['resultat'] = $resultat;
-    }
+
     $target = $_SESSION['target'];
 
     $resultat = "";
@@ -215,8 +216,8 @@ if (isset($guess) && $guess) {
     /* Lunettes */
     $resultat.= "Lunettes : " .  ($guess['lunettes'] ===  $target['lunettes'] ?  "✅" : "❌") . "<br>";
 
-    /* Cheuveux */
-    $resultat.=  "Cheuveux : " .  ($guess['cheuveux']  ===  $target['cheuveux'] ?   "✅" : "❌") . "<br>";
+    /* Cheveux */
+    $resultat.=  "Cheveux : " . ($guess['cheveux']  ===  $target['cheveux'] ?   "✅" : "❌") . "<br>";
 
     /* Naissance */
     if ($guess['naissance'] == $target['naissance']) {
@@ -236,30 +237,31 @@ if (isset($guess) && $guess) {
         $resultat.= "Taille : ⬇️<br>";
     }
 
-    /* Test victoire*/
-    if ($guess['prenom'] === $target['prenom']) {
+/* Test victoire*/
+if ($guess['prenom'] === $target['prenom']) {
 
-        $_SESSION['resultat'] = "
-        <div class='victory'>
-            <img src='assets/images/Trophee.png' width='50'>
-            <h2>🎉 Bravo !</h2>
-            <p>Tu as trouvé : <strong>" . $target['prenom'] . "</strong></p>
-        </div>
-        ";
+    $_SESSION['resultat'] = "
+    <div class='victory'>
+        <img src='assets/images/Trophee.png' width='50'>
+        <h2> Bravo !</h2>
+        <p>Tu as trouvé : <strong>" . $target['prenom'] . "</strong></p>
+    </div>
+    ";
 
-        unset($_SESSION['target']);
-        unset($_SESSION['essais']);
+    /* bloque la partie */
+    $_SESSION['game_over'] = true;
 
-        header("Location: index.php?page=jeu"); //  IMPORTANT
-        exit;
-    }
+    header("Location: index.php?page=jeu");
+    exit;
+}
+    
     /* Permet de gerer les essaies */
     $_SESSION['essais'][] = [
         'prenom'   => $guess['prenom'],
         'sexe'     => ($guess['sexe']     === $target['sexe']),
         'parcours' => ($guess['parcours'] === $target['parcours']),
         'lunettes' => ($guess['lunettes'] == $target['lunettes']),
-        'cheuveux'  => ($guess['cheuveux']  === $target['cheuveux']),
+        'cheveux'  => ($guess['cheveux']  === $target['cheveux']),
         
         'naissance' => ($guess['naissance'] == $target['naissance']) ? "ok"
             : ($guess['naissance'] < $target['naissance'] ? "up" : "down"),
@@ -278,11 +280,7 @@ if (isset($guess) && $guess) {
     </div>
 ";
 
-    unset($_SESSION['target']);
-    unset($_SESSION['essais']);
-
-    header("Location: index.php?page=jeu");
-    exit;
+$_SESSION['game_over'] = true;
 }
 }
 
@@ -291,7 +289,7 @@ if (isset($guess) && $guess) {
 
 include __DIR__ . '/includes/header.php'; /*__DIR__  permet de donner le chemin absolue */
 
-$allowedPages = ['accueil', 'admin', 'jeu']; /*Whiteliste de mon projet */
+$allowedPages = ['accueil', 'admin', 'jeu','contact', 'conditions']; /*Whiteliste de mon projet */
 
 /*permet de crée un chemin accessible uniquement pour les admin*/
 $page = $_GET['page'] ?? 'accueil'; 

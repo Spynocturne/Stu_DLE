@@ -28,10 +28,3 @@ if (form && input && button) {
         button.disabled = input.value.trim() === "";
     });
 }
-
-/*confetis victoire jeu*/
-/*
-if (document.querySelector('.victory')) {
-    console.log("🎉 Confettis !");
-}
-    */
