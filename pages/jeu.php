@@ -1,9 +1,10 @@
-<h2> Trouve l'élève</h2>
+<h2> <img src="/STU_DLE/assets/images/Loupe.png" width="60" height="60" alt=""> Trouve l'élève</h2>
 
 <?php if (empty($_SESSION['game_over'])): ?>
 
 <form method="POST">
 
+<!--Partie ou entrez la réponse-->
     <input 
         type="text"
         name="prenom"
@@ -57,7 +58,7 @@
         <th>Naissance</th>
         <th>Taille</th>
         <th>Lunettes</th>
-        <th>Cheveux</th>
+        <th>Prout</th>
     </tr>
     <tr class="ligne-essai">
 

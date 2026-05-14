@@ -32,8 +32,12 @@ foreach ($result as $row) {
     echo "<td>" . $row['email'] . "</td>";
 
     echo "<td>";
-    echo "<a href='?page=admin&delete=" . $row['id'] . "' onclick=\"return confirm('Supprimer ?')\">❌</a> ";
-    echo "<a href='?page=admin&edit="   . $row['id'] . "'>✒️</a>";
+    echo "<a href='?page=admin&delete=" . $row['id'] . "' onclick=\"return confirm('Supprimer ?')\">
+        <img src='/STU_DLE/assets/images/Erreur.png' alt='Supprimer' style='width:20px; height:20px;'>
+    </a>";
+    echo "<a href='?page=admin&edit="   . $row['id'] . "'>
+        <img src='/STU_DLE/assets/images/Modif.png' alt='Modifier' style='width:20px; height:20px;'>
+    </a>";
     echo "</td>";
 
     echo "</tr>";

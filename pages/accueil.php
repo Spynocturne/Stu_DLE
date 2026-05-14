@@ -18,14 +18,18 @@
 $sql = "SELECT * FROM users";
 $result = $pdo->query($sql); /*query execute une requete SQL sur la base de donné*/
 
-foreach ($result as $row) {/* Pour chaque personne on peut supr ou modif le compte */
+foreach ($result as $row) { /* Pour chaque personne on peut supr ou modif le compte */
 echo "<div class='user'>";
 echo "<strong>" . $row['pseudo'] . "</strong><br>";
 echo $row['email'];
 
 if (!empty($_SESSION['user']) && $_SESSION['role'] === 'admin') {
-    echo "<br><a href='?delete=" . $row['id'] . "&token=" . $_SESSION['token'] . "'>Supprimer ❌</a>"; /*suppression avec token*/
-    echo " <a href='?edit=" . $row['id'] . "'>Modifié : ✏️</a>";
+    echo "<br><a href='?delete=" . $row['id'] . "&token=" . $_SESSION['token'] . "'>Supprimer 
+    <img src='/STU_DLE/assets/images/Erreur.png' alt='Supprimer' style='width:20px; height:20px;'>
+    </a>"; /*suppression avec token*/
+    echo " <a href='?edit=" . $row['id'] . "'>Modifier
+    <img src='/STU_DLE/assets/images/Modif.png' alt='Modifier' style='width:20px; height:20px;'>
+    </a>";
 }
 
 echo "</div>";
@@ -58,7 +62,7 @@ if (isset($_GET['edit'])) { /*si le edit present dans Modifier est vrai/appuyer 
 <form method="POST">
     <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
-    <input type="text" name="pseudo" value="<?= htmlspecialchars($user['pseudo']) ?>" required>
+    <input type="text" name="pseudo" value="<?= htmlspecialchars($user['pseudo']) ?>" required> /*htmlspecialchars(...) : C'est la sécurité principale. Elle transforme les caractères spéciaux (comme < ou >) en code HTML. Cela empêche quelqu'un d'injecter du code malveillant (JavaScript) dans votre page.*/ 
     <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
 
     <button type="submit" name="update">Modifier</button>

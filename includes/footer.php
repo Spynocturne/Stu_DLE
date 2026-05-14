@@ -7,6 +7,6 @@
     <a href="index.php?page=conditions">Conditions</a>  <!--Page conditions-->
 </footer>
 
-<script src="assets/js/script.js"></script>
+<script src="assets/js/script.js"></script>             <!--intégrer ou référencer du code exécutable-->
 </body>
 </html>
