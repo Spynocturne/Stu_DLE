@@ -16,9 +16,9 @@
     <!-- LISTER les utilisateur -->
 <?php
 $sql = "SELECT * FROM users";
-$result = $pdo->query($sql); /*query execute une requete SQL sur la base de donné*/
+$result = $pdo->query($sql);    /*query execute une requete SQL sur la base de donné*/
 
-foreach ($result as $row) { /* Pour chaque personne on peut supr ou modif le compte */
+foreach ($result as $row) {     /*Pour chaque personne on peut supr ou modif le compte */
 echo "<div class='user'>";
 echo "<strong>" . $row['pseudo'] . "</strong><br>";
 echo $row['email'];
@@ -62,7 +62,7 @@ if (isset($_GET['edit'])) { /*si le edit present dans Modifier est vrai/appuyer 
 <form method="POST">
     <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
-    <input type="text" name="pseudo" value="<?= htmlspecialchars($user['pseudo']) ?>" required> /*htmlspecialchars(...) : C'est la sécurité principale. Elle transforme les caractères spéciaux (comme < ou >) en code HTML. Cela empêche quelqu'un d'injecter du code malveillant (JavaScript) dans votre page.*/ 
+    <input type="text" name="pseudo" value="<?= htmlspecialchars($user['pseudo']) ?>" required> <!--htmlspecialchars(...) : C'est la sécurité principale. Elle transforme les caractères spéciaux (comme < ou >) en code HTML. Cela empêche quelqu'un d'injecter du code malveillant (JavaScript) dans votre page.-->
     <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
 
     <button type="submit" name="update">Modifier</button>

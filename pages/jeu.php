@@ -51,6 +51,7 @@
 <h2><img src="assets/images/Inscription.png" > Essais</h2>
 
 <table class="game-table">
+    <!--Catégorie tableau-->
     <tr>
         <th>Prénom</th>
         <th>Sexe</th>
@@ -58,7 +59,7 @@
         <th>Naissance</th>
         <th>Taille</th>
         <th>Lunettes</th>
-        <th>Prout</th>
+        <th>Cheveux</th>
     </tr>
     <tr class="ligne-essai">
 
